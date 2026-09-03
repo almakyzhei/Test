@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cafetaria Al Bahjah Saung Balong - Jajan Enak & Murmer, Pesan Gampang</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#111827',
+                        accent: '#F59E0B',
+                        background: '#F8FAFC',
+                        surface: '#FFFFFF',
+                        text: '#111827',
+                        muted: '#64748B',
+                        success: '#25D366',
+                        danger: '#EF4444',
+                        'accent-light': '#FEF3C7',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'float': '0 10px 30px -5px rgba(0, 0, 0, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom CSS */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            background-color: #F8FAFC;
+        }
+        
+        /* Hide scrollbar for category menu */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide-up {
+            animation: slideUp 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+
+        .toast-enter { transform: translateY(20px); opacity: 0; }
+        .toast-active { transform: translateY(0); opacity: 1; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .toast-leave { transform: translateY(-20px); opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+
+    <!-- ============================================================
+         SB CINEMATIC OPENING
+         ============================================================ -->
+    <style id="sbOpeningStyles">
+        body { overflow-x: hidden; }
+
+        #sbOpening {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse 120% 80% at 50% 0%, #1a2235 0%, #111827 45%, #0b0f1a 100%);
+            transition: opacity 1000ms cubic-bezier(0.4,0,0.2,1), transform 1000ms cubic-bezier(0.4,0,0.2,1);
+        }
+        #sbOpening.opening-exit {
+            opacity: 0;
+            transform: scale(1.05);
+            pointer-events: none;
+        }
+
+        /* Ambient glow */
+        .sb-ambient {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            background: #F59E0B;
+            pointer-events: none;
+            will-change: transform;
+        }
+        .sb-ambient-1 { width: 420px; height: 420px; top: -12%; left: -10%; animation: sbDrift1 24s ease-in-out infinite; }
+        .sb-ambient-2 { width: 380px; height: 380px; bottom: -16%; right: -8%; opacity: 0.12; animation: sbDrift2 28s ease-in-out infinite; }
+        .sb-ambient-3 { width: 260px; height: 260px; top: 42%; right: 14%; opacity: 0.10; background: #FFFFFF; animation: sbDrift3 32s ease-in-out infinite; }
+
+        @keyframes sbDrift1 { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px, 36px) scale(1.08); } }
+        @keyframes sbDrift2 { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-26px,-28px) scale(1.05); } }
+        @keyframes sbDrift3 { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-16px, 18px) scale(1.1); } }
+
+        /* Subtle grain */
+        .sb-grain {
+            position: absolute;
+            inset: -10%;
+            opacity: 0.035;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* Elemen makanan dekoratif */
+        .sb-food-glyph {
+            position: absolute;
+            font-size: 2.25rem;
+            opacity: 0.07;
+            filter: blur(1px);
+            animation: sbFloat 11s ease-in-out infinite;
+            pointer-events: none;
+            user-select: none;
+        }
+        @keyframes sbFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-14px); } }
+
+        #sbOpeningContent {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 1.5rem;
+            max-width: 480px;
+            width: 100%;
+        }
+
+        #sbOpeningLogo {
+            width: 84px;
+            height: 84px;
+            border-radius: 9999px;
+            border: 1px solid rgba(245,158,11,0.4);
+            background: linear-gradient(145deg, rgba(245,158,11,0.16), rgba(245,158,11,0.02));
+            box-shadow: 0 0 40px rgba(245,158,11,0.15), inset 0 0 20px rgba(245,158,11,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.65rem;
+            letter-spacing: 0.04em;
+            color: #F59E0B;
+            opacity: 0;
+            transform: scale(0.7);
+        }
+
+        #sbOpeningName {
+            margin-top: 1.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            line-height: 1.35;
+            color: #FFFFFF;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        #sbOpeningName span { display: block; }
+        #sbOpeningName .sb-name-accent { color: #F59E0B; }
+
+        #sbOpeningTagline {
+            margin-top: 0.85rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #F8FAFC;
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        #sbOpeningDesc {
+            margin-top: 0.35rem;
+            font-size: 0.8rem;
+            color: #94A3B8;
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        #sbOpeningButton {
+            margin-top: 2.1rem;
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: #111827;
+            font-weight: 700;
+            font-size: 0.82rem;
+            letter-spacing: 0.02em;
+            padding: 0.95rem 2rem;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px -5px rgba(245,158,11,0.30);
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: transform 200ms ease, box-shadow 300ms ease;
+            width: min(90%, 380px);
+        }
+        #sbOpeningButton:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 14px 36px -6px rgba(245,158,11,0.45); }
+        #sbOpeningButton:active { transform: scale(0.96); }
+        #sbOpeningButton:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 3px; }
+
+        @keyframes sbButtonPulse {
+            0%, 100% { box-shadow: 0 10px 30px -5px rgba(245,158,11,0.30); }
+            50% { box-shadow: 0 10px 34px -4px rgba(245,158,11,0.5); }
+        }
+
+        /* Entrance sequence */
+        #sbOpeningLogo.sb-in { animation: sbLogoIn 700ms cubic-bezier(0.16,1,0.3,1) forwards; }
+        #sbOpeningName.sb-in { animation: sbUpIn 700ms cubic-bezier(0.16,1,0.3,1) forwards; animation-delay: 150ms; }
+        #sbOpeningTagline.sb-in { animation: sbUpIn 700ms cubic-bezier(0.16,1,0.3,1) forwards; animation-delay: 320ms; }
+        #sbOpeningDesc.sb-in { animation: sbUpIn 700ms cubic-bezier(0.16,1,0.3,1) forwards; animation-delay: 460ms; }
+        #sbOpeningButton.sb-in {
+            animation: sbButtonIn 700ms cubic-bezier(0.16,1,0.3,1) 620ms forwards,
+                       sbButtonPulse 3.2s ease-in-out 1.4s infinite;
+        }
+
+        @keyframes sbLogoIn { to { opacity: 1; transform: scale(1); } }
+        @keyframes sbUpIn { to { opacity: 1; transform: translateY(0); } }
+        @keyframes sbButtonIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        /* Exit sequence */
+        #sbOpeningLogo.sb-out { transition: opacity 500ms ease, transform 500ms ease; opacity: 0; transform: scale(1.08); animation: none; }
+        #sbOpeningName.sb-out,
+        #sbOpeningTagline.sb-out,
+        #sbOpeningDesc.sb-out {
+            transition: opacity 450ms ease, transform 450ms ease;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: none;
+        }
+        #sbOpeningButton.sb-out {
+            transition: opacity 450ms ease, transform 450ms ease;
+            opacity: 0;
+            transform: translateY(-6px) scale(0.97);
+            animation: none;
+        }
+
+        /* Golden flash */
+        #sbGoldenFlash {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, rgba(245,158,11,0.60) 0%, rgba(245,158,11,0.22) 35%, rgba(245,158,11,0) 70%);
+            opacity: 0;
+            transform: scale(0.6);
+        }
+        #sbGoldenFlash.sb-flash-active { animation: sbFlash 700ms ease-out forwards; }
+        @keyframes sbFlash {
+            0% { opacity: 0; transform: scale(0.6); }
+            35% { opacity: 1; transform: scale(1.15); }
+            100% { opacity: 0; transform: scale(1.4); }
+        }
+
+        /* Main content */
+        #sbMainContent {
+            transition: opacity 900ms cubic-bezier(0.4,0,0.2,1), transform 900ms cubic-bezier(0.4,0,0.2,1);
+        }
+        body.sb-first-visit #sbMainContent {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        /* Floating music control */
+        #sbMusicControl {
+            position: fixed;
+            right: 1rem;
+            bottom: 6.5rem;
+            z-index: 45;
+            width: 48px;
+            height: 48px;
+            border-radius: 9999px;
+            background: #111827;
+            color: #F59E0B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            border: 1px solid rgba(245,158,11,0.3);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 500ms ease, transform 500ms ease, box-shadow 300ms ease;
+        }
+        #sbMusicControl.sb-visible { opacity: 1; transform: translateY(0); }
+        #sbMusicControl.sb-playing { animation: sbMusicPulse 2.6s ease-in-out infinite; }
+        #sbMusicControl:focus-visible { outline: 2px solid #F59E0B; outline-offset: 2px; }
+        @keyframes sbMusicPulse {
+            0%, 100% { box-shadow: 0 6px 20px rgba(0,0,0,0.18), 0 0 0 rgba(245,158,11,0); }
+            50% { box-shadow: 0 6px 20px rgba(0,0,0,0.18), 0 0 16px rgba(245,158,11,0.45); }
+        }
+        @media (min-width: 768px) {
+            #sbMusicControl { bottom: 2rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .sb-ambient-1 { width: 540px; height: 540px; }
+            .sb-ambient-2 { width: 460px; height: 460px; }
+        }
+
+        @media (max-width: 380px) {
+            #sbOpeningLogo { width: 74px; height: 74px; font-size: 1.4rem; }
+            #sbOpeningName { font-size: 1.2rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .sb-ambient, .sb-food-glyph { animation: none !important; }
+            #sbOpening, #sbMainContent, #sbMusicControl, #sbGoldenFlash,
+            #sbOpeningLogo, #sbOpeningName, #sbOpeningTagline, #sbOpeningDesc, #sbOpeningButton {
+                transition-duration: 150ms !important;
+            }
+            #sbOpeningLogo.sb-in, #sbOpeningName.sb-in, #sbOpeningTagline.sb-in,
+            #sbOpeningDesc.sb-in, #sbOpeningButton.sb-in {
+                animation-duration: 150ms !important;
+                animation-delay: 0ms !important;
+            }
+            #sbMusicControl.sb-playing { animation: none !important; }
+        }
+    </style>
+</head>
+<body class="text-text font-sans antialiased pb-24 relative min-h-screen">
+
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="https://almakyzhei.github.io/Test/ab%20voice.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="sbOpening" role="dialog" aria-modal="true" aria-label="Selamat datang di Cafetaria Al Bahjah Saung Balong">
+        <div class="sb-ambient sb-ambient-1"></div>
+        <div class="sb-ambient sb-ambient-2"></div>
+        <div class="sb-ambient sb-ambient-3"></div>
+        <div class="sb-grain"></div>
+
+        <div class="sb-food-glyph" style="top:10%; left:9%;" aria-hidden="true">🍜</div>
+        <div class="sb-food-glyph" style="top:14%; right:11%; animation-delay:2s;" aria-hidden="true">🥤</div>
+        <div class="sb-food-glyph" style="bottom:13%; left:12%; animation-delay:4s;" aria-hidden="true">🍗</div>
+        <div class="sb-food-glyph" style="bottom:17%; right:9%; animation-delay:1s;" aria-hidden="true">🍚</div>
+
+        <div id="sbGoldenFlash"></div>
+
+        <div id="sbOpeningContent">
+            <div id="sbOpeningLogo">SB</div>
+            <h1 id="sbOpeningName">
+                <span>Cafetaria Al Bahjah</span>
+                <span class="sb-name-accent">Saung Balong</span>
+            </h1>
+            <p id="sbOpeningTagline">"Jajan Enak, Pesan Gampang."</p>
+            <p id="sbOpeningDesc">Nikmati jajanan favoritmu dengan mudah.</p>
+            <button type="button" id="sbOpeningButton">MASUK &amp; JAJAN SEKARANG</button>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            try {
+                var hasEntered = sessionStorage.getItem('saungBalongEntered');
+                var opening = document.getElementById('sbOpening');
+                if (hasEntered) {
+                    if (opening) opening.style.display = 'none';
+                    document.body.style.overflow = '';
+                } else {
+                    document.body.classList.add('sb-first-visit');
+                    document.body.style.overflow = 'hidden';
+                }
+            } catch (e) {}
+        })();
+    </script>
+
+    <div id="sbMainContent">
+
+    <!-- TOAST CONTAINER -->
+    <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none w-[90%] max-w-md"></div>
+
+    <!-- HEADER -->
+    <header class="fixed top-0 w-full z-40 glass border-b border-gray-100 transition-all duration-300" id="header">
+        <div id="storeStatusBanner" class="w-full text-center py-1.5 text-xs font-medium text-white transition-colors duration-300"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center font-bold text-lg">
+                        SB
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-primary">Cafetaria Al Bahjah Saung Balong</span>
+                </a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#beranda" class="text-sm font-semibold text-primary hover:text-accent transition">Beranda</a>
+                    <a href="#menu" class="text-sm font-semibold text-muted hover:text-accent transition">Menu</a>
+                    <a href="#paket" class="text-sm font-semibold text-muted hover:text-accent transition">Paket Hemat</a>
+                    <a href="#cara-pesan" class="text-sm font-semibold text-muted hover:text-accent transition">Cara Pesan</a>
+                </nav>
+
+                <!-- Cart Button -->
+                <button onclick="toggleCart()" class="relative p-2 text-primary hover:bg-gray-100 rounded-full transition">
+                    <i class="ph ph-shopping-cart text-2xl"></i>
+                    <span id="cartBadgeHeader" class="absolute top-0 right-0 bg-danger text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center scale-0 transition-transform">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="pt-24 lg:pt-28">
+        
+        <!-- HERO SECTION -->
+        <section id="beranda" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <div class="bg-primary rounded-3xl p-8 md:p-12 lg:p-16 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 shadow-float">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-accent rounded-full filter blur-[100px] opacity-20 translate-x-1/2 -translate-y-1/2"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full filter blur-[80px] opacity-10 -translate-x-1/2 translate-y-1/2"></div>
+                
+                <div class="relative z-10 w-full md:w-3/5 text-center md:text-left">
+                    <span class="inline-block py-1 px-3 rounded-full bg-white/10 text-white text-xs font-semibold tracking-wider mb-4 border border-white/20">
+                        JAJAN ENAK, PESAN GAMPANG
+                    </span>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
+                        Pesan Jajanan Favoritmu <span class="text-accent">Tanpa Ribet.</span>
+                    </h1>
+                    <p class="text-gray-300 text-sm md:text-base lg:text-lg mb-8 max-w-xl mx-auto md:mx-0">
+                        Mau makanan, gorengan, atau minuman favorit? Pilih menunya sekarang dan pesan langsung dengan cepat melalui WhatsApp.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                        <a href="#menu" class="bg-accent hover:bg-yellow-500 text-white px-6 py-3 rounded-xl font-semibold transition shadow-lg shadow-accent/30 text-center flex items-center justify-center gap-2">
+                            <i class="ph ph-book-open text-xl"></i> Lihat Menu
+                        </a>
+                        <a href="#paket" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-xl font-semibold transition border border-white/10 text-center flex items-center justify-center gap-2">
+                            <i class="ph ph-fire text-xl text-accent"></i> Paket Hemat
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative z-10 w-full md:w-2/5 hidden sm:flex justify-center md:justify-end">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80">
+                        <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-white/5 rounded-3xl border border-white/10 backdrop-blur-md rotate-3 flex items-center justify-center shadow-2xl">
+                            <div class="text-center">
+                                <div class="text-6xl mb-4 filter drop-shadow-md">🍗🍜🥤</div>
+                                <div class="bg-white/10 py-1.5 px-4 rounded-full text-white text-sm font-medium border border-white/20 backdrop-blur-sm">
+                                    Fresh & Delicious
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute -left-6 top-10 bg-white p-3 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce" style="animation-duration: 3s;">
+                            <div class="bg-green-100 p-2 rounded-full text-success"><i class="ph-fill ph-check-circle text-xl"></i></div>
+                            <div>
+                                <div class="text-xs text-muted font-medium">Buka Sekarang</div>
+                                <div class="text-sm text-primary font-bold">Siap Antar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARA PESAN -->
+        <section id="cara-pesan" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <h2 class="text-2xl font-bold text-primary mb-6 flex items-center gap-2">
+                <i class="ph-fill ph-info text-accent"></i> Cara Pesan
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-2xl shadow-soft border border-gray-50">
+                    <div class="w-10 h-10 bg-accent-light text-accent rounded-xl flex items-center justify-center text-xl font-bold mb-3">01</div>
+                    <h3 class="font-semibold text-primary mb-1">Pilih Menu</h3>
+                    <p class="text-xs text-muted leading-relaxed">Pilih makanan atau minuman favoritmu.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-soft border border-gray-50">
+                    <div class="w-10 h-10 bg-accent-light text-accent rounded-xl flex items-center justify-center text-xl font-bold mb-3">02</div>
+                    <h3 class="font-semibold text-primary mb-1">Ke Keranjang</h3>
+                    <p class="text-xs text-muted leading-relaxed">Atur jumlah pesanan sesuai keinginan.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-soft border border-gray-50">
+                    <div class="w-10 h-10 bg-accent-light text-accent rounded-xl flex items-center justify-center text-xl font-bold mb-3">03</div>
+                    <h3 class="font-semibold text-primary mb-1">Checkout</h3>
+                    <p class="text-xs text-muted leading-relaxed">Isi nama, kamar/kelas, dan metode bayar.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-soft border border-gray-50">
+                    <div class="w-10 h-10 bg-success/20 text-success rounded-xl flex items-center justify-center text-xl font-bold mb-3"><i class="ph-fill ph-whatsapp-logo"></i></div>
+                    <h3 class="font-semibold text-primary mb-1">Pesan via WA</h3>
+                    <p class="text-xs text-muted leading-relaxed">Pesanan otomatis terkirim ke admin kami.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAKET HEMAT HIGHLIGHT -->
+        <section id="paket" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-primary flex items-center gap-2">
+                        <i class="ph-fill ph-fire text-danger"></i> Paket Hemat Hari Ini
+                    </h2>
+                    <p class="text-sm text-muted mt-1">Lebih untung, lebih kenyang.</p>
+                </div>
+            </div>
+            
+            <div class="flex overflow-x-auto hide-scrollbar gap-4 pb-4 snap-x snap-mandatory" id="paketContainer">
+                <!-- Injected by JS -->
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+            
+            <div class="sticky top-16 md:top-20 z-30 bg-background/95 backdrop-blur-md pt-4 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
+                <!-- Search -->
+                <div class="relative mb-4">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="ph ph-magnifying-glass text-muted text-lg"></i>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Cari makanan atau minuman..." 
+                        class="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition shadow-sm text-sm">
+                </div>
+
+                <!-- Categories -->
+                <div class="flex overflow-x-auto hide-scrollbar gap-2" id="categoryContainer">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="emptyState" class="hidden text-center py-12">
+                <div class="text-6xl mb-4">🔍</div>
+                <h3 class="text-lg font-semibold text-primary">Menu tidak ditemukan</h3>
+                <p class="text-muted text-sm mt-1">Coba cari dengan kata kunci lain.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 mt-4" id="productGrid">
+                <!-- Injected by JS -->
+            </div>
+            
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-gray-200 pt-10 pb-28 md:pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <div class="font-bold text-2xl tracking-tight text-primary mb-1 flex items-center justify-center md:justify-start gap-2">
+                    <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center font-bold text-[10px]">SB</div>
+                    Cafetaria Al Bahjah Saung Balong
+                </div>
+                <p class="text-sm text-muted">Jajan Enak, Pesan Gampang.</p>
+            </div>
+            
+            <div class="flex gap-4">
+                <button onclick="window.open(`https://wa.me/${CONFIG.whatsappNumber}`, '_blank')" class="bg-green-50 text-success hover:bg-green-100 px-5 py-2.5 rounded-xl font-semibold transition flex items-center gap-2 text-sm border border-green-200">
+                    <i class="ph-fill ph-whatsapp-logo text-lg"></i> Chat Admin
+                </button>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 text-center md:text-left">
+            <p class="text-xs text-gray-400">&copy; 2026 Cafetaria Al Bahjah Saung Balong. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         FLOATING CART "CHECKOUT SEKARANG" (ALL SCREENS)
+         Muncul mencolok jika ada item di keranjang
+         ========================================== -->
+    <div id="floatingCart" class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md z-[55] transition-transform duration-300 transform translate-y-32 flex justify-center">
+        <!-- Langsung mengarah ke formulir pesanan openCheckout() -->
+        <button onclick="openCheckout()" class="w-full bg-success text-white p-4 rounded-2xl shadow-[0_10px_30px_-5px_rgba(37,211,102,0.4)] flex justify-between items-center active:scale-95 transition-transform border border-green-500 hover:bg-green-500">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <i class="ph ph-shopping-bag text-2xl text-white"></i>
+                    <span id="floatingCartQty" class="absolute -top-2 -right-2 bg-danger text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-success">0</span>
+                </div>
+                <div class="text-left flex flex-col">
+                    <span class="text-xs text-green-100">Total Belanja</span>
+                    <span id="floatingCartTotal" class="font-bold text-sm">Rp0</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-1 text-sm font-bold bg-white/20 px-3 py-2 rounded-lg hover:bg-white/30 transition">
+                Checkout Sekarang <i class="ph ph-arrow-right font-bold"></i>
+            </div>
+        </button>
+    </div>
+
+    <!-- CART DRAWER / MODAL -->
+    <div id="cartOverlay" class="fixed inset-0 bg-primary/40 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300"></div>
+    
+    <div id="cartDrawer" class="fixed top-0 right-0 h-full w-full md:w-[400px] bg-white z-[65] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col">
+        <!-- Cart Header -->
+        <div class="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-white">
+            <h2 class="text-lg font-bold text-primary flex items-center gap-2">
+                <i class="ph-fill ph-shopping-cart text-accent"></i> Keranjang Kamu
+            </h2>
+            <button onclick="toggleCart()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition">
+                <i class="ph ph-x"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items -->
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-6 flex flex-col gap-4 bg-gray-50/50">
+            <!-- Injected by JS -->
+        </div>
+
+        <!-- Cart Footer -->
+        <div id="cartFooter" class="p-6 bg-white border-t border-gray-100 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.05)]">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-muted font-medium">Total Pembayaran</span>
+                <span id="cartTotalUI" class="text-xl font-bold text-primary">Rp0</span>
+            </div>
+            <button onclick="openCheckout()" class="w-full bg-primary hover:bg-gray-800 text-white py-3.5 rounded-xl font-bold transition shadow-lg flex items-center justify-center gap-2">
+                Lanjut Checkout <i class="ph ph-arrow-right font-bold"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL -->
+    <div id="checkoutModal" class="fixed inset-0 z-[70] hidden flex-col items-center justify-end md:justify-center p-0 md:p-4">
+        <div class="absolute inset-0 bg-primary/60 backdrop-blur-sm" onclick="closeCheckout()"></div>
+        
+        <div class="bg-white w-full md:w-[500px] max-h-[90vh] md:max-h-[85vh] rounded-t-3xl md:rounded-3xl shadow-2xl relative z-10 flex flex-col animate-slide-up overflow-hidden">
+            
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-20">
+                <h2 class="text-lg font-bold text-primary">Formulir Pemesanan</h2>
+                <button onclick="closeCheckout()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto flex-1 custom-scrollbar">
+                
+                <div class="bg-accent-light/50 border border-accent/20 rounded-xl p-4 mb-6 flex gap-3">
+                    <i class="ph-fill ph-info text-accent text-xl shrink-0"></i>
+                    <p class="text-xs text-primary/80 leading-relaxed">
+                        Pastikan data yang dimasukkan benar. Pembayaran dan konfirmasi akan diproses lebih lanjut melalui WhatsApp.
+                    </p>
+                </div>
+
+                <form id="checkoutForm" class="space-y-4">
+                    <!-- NAMA SANTRI -->
+                    <div>
+                        <label class="block text-sm font-semibold text-primary mb-1.5">Nama Santri <span class="text-danger">*</span></label>
+                        <input type="text" id="custName" required placeholder="Masukkan nama santri" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-accent focus:bg-white focus:ring-2 focus:ring-accent/20 outline-none transition text-sm">
+                    </div>
+                    
+                    <!-- NOMOR INDUK SANTRI -->
+                    <div>
+                        <label class="block text-sm font-semibold text-primary mb-1.5">Nomor Induk Santri (NIS) <span class="text-danger">*</span></label>
+                        <input type="number" id="custNIS" required placeholder="Contoh: 5223" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-accent focus:bg-white focus:ring-2 focus:ring-accent/20 outline-none transition text-sm">
+                    </div>
+
+                    <!-- KAMAR / KELAS -->
+                    <div>
+                        <label class="block text-sm font-semibold text-primary mb-1.5">Kamar / Kelas <span class="text-danger">*</span></label>
+                        <input type="text" id="custRoom" required placeholder="Contoh: Tahqiqul Mutun 1" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-accent focus:bg-white focus:ring-2 focus:ring-accent/20 outline-none transition text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-primary mb-1.5">Waktu Pengambilan <span class="text-danger">*</span></label>
+                        <select id="custTime" required class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-accent focus:bg-white focus:ring-2 focus:ring-accent/20 outline-none transition text-sm appearance-none">
+                            <option value="" disabled selected>Pilih waktu</option>
+                            <option value="Sekarang">Sekarang</option>
+                            <option value="Istirahat">Istirahat</option>
+                            <option value="Setelah Dzuhur">Setelah Dzuhur</option>
+                            <option value="Setelah Ashar">Setelah Ashar</option>
+                            <option value="Setelah Maghrib">Setelah Maghrib</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-primary mb-1.5">Metode Pembayaran <span class="text-danger">*</span></label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="payment" value="Cash" checked class="peer sr-only">
+                                <div class="w-full text-center py-2.5 px-2 rounded-lg border border-gray-200 peer-checked:border-accent peer-checked:bg-accent-light peer-checked:text-accent font-medium text-xs transition">Cash</div>
+                            </label>
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="payment" value="Transfer" class="peer sr-only">
+                                <div class="w-full text-center py-2.5 px-2 rounded-lg border border-gray-200 peer-checked:border-accent peer-checked:bg-accent-light peer-checked:text-accent font-medium text-xs transition">Transfer</div>
+                            </label>
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="payment" value="QRIS" class="peer sr-only">
+                                <div class="w-full text-center py-2.5 px-2 rounded-lg border border-gray-200 peer-checked:border-accent peer-checked:bg-accent-light peer-checked:text-accent font-medium text-xs transition">QRIS</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- CATATAN -->
+                    <div>
+                        <label class="block text-sm font-semibold text-primary mb-1.5">Catatan Pesanan (Opsional)</label>
+                        <textarea id="custNote" rows="2" placeholder="Contoh: Tidak pedas, saus dipisah, dll." class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-accent focus:bg-white focus:ring-2 focus:ring-accent/20 outline-none transition text-sm resize-none"></textarea>
+                    </div>
+
+                    <!-- PESAN UNTUK ANANDA TERCINTA -->
+                    <div>
+                        <label class="block text-sm font-semibold text-primary mb-1.5">Pesan untuk ananda tercinta (Opsional)</label>
+                        <textarea id="custParentMessage" rows="2" placeholder="Contoh: Semangat terus belajarnya ya nak, jajannya dihabiskan..." class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-accent focus:bg-white focus:ring-2 focus:ring-accent/20 outline-none transition text-sm resize-none"></textarea>
+                    </div>
+                </form>
+
+                <!-- Summary Preview inside checkout -->
+                <div class="mt-6 border-t border-dashed border-gray-300 pt-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-muted">Total Pembayaran</span>
+                        <span id="checkoutTotalUI" class="text-lg font-bold text-primary">Rp0</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="p-4 border-t border-gray-100 bg-white">
+                <button onclick="processOrder()" class="w-full bg-success hover:bg-green-600 text-white py-3.5 rounded-xl font-bold transition shadow-lg shadow-success/30 flex items-center justify-center gap-2">
+                    <i class="ph-fill ph-whatsapp-logo text-xl"></i> Pesan via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    </div><!-- /#sbMainContent -->
+
+    <!-- SB MUSIC CONTROL -->
+    <button type="button" id="sbMusicControl" aria-label="Kontrol musik">
+        <i class="ph ph-speaker-slash" aria-hidden="true"></i>
+    </button>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ==========================================
+        // 1. CONFIGURATION
+        // ==========================================
+        const CONFIG = {
+            storeName: "Cafetaria Al Bahjah Saung Balong",
+            whatsappNumber: "6285199342671",
+            storeOpen: true 
+        };
+
+        // ==========================================
+        // 2. PRODUCT DATA
+        // ==========================================
+        const products = [
+            // MAKANAN UTAMA
+            { id: 1, name: "Mie Ayam", category: "Makanan Utama", price: 9000, description: "Mie ayam gurih dan nikmat.", badge: "", image: "", icon: "🍜", bgColor: "from-amber-100 to-amber-50" },
+            { id: 2, name: "Ayam Geprek", category: "Makanan Utama", price: 16000, description: "Pedas mantap bikin nagih.", badge: "", image: "", icon: "🍗", bgColor: "from-red-100 to-red-50" },
+            { id: 3, name: "Ayam Songkem Dada", category: "Makanan Utama", price: 19000, description: "Bumbu songkem khas gurih pedas.", badge: "", image: "", icon: "🍱", bgColor: "from-orange-100 to-orange-50" },
+            { id: 4, name: "Ayam Songkem Dada + Nasi", category: "Makanan Utama", price: 22000, description: "Lebih kenyang pakai nasi.", badge: "", image: "", icon: "🍛", bgColor: "from-orange-100 to-orange-50" },
+            { id: 5, name: "Ayam Songkem Paha Atas", category: "Makanan Utama", price: 20000, description: "Paha atas empuk bumbu meresap.", badge: "", image: "", icon: "🍗", bgColor: "from-orange-100 to-orange-50" },
+            { id: 6, name: "Ayam Songkem Paha Atas + Nasi", category: "Makanan Utama", price: 23000, description: "Menu andalan bikin kenyang.", badge: "🔥 Best Seller", image: "", icon: "🍛", bgColor: "from-orange-100 to-orange-50" },
+            { id: 7, name: "Ricebowl", category: "Makanan Utama", price: 10000, description: "Nasi, ayam suwir, tempe oreg, lalaban.", badge: "🔥 Best Seller", image: "", icon: "🍚", bgColor: "from-yellow-100 to-yellow-50" },
+            
+            // DESSERT
+            { id: 8, name: "Cilok", category: "Dessert", price: 3000, description: "Kenyal, gurih bumbu kacang.", badge: "", image: "", icon: "🍡", bgColor: "from-rose-100 to-rose-50" },
+            { id: 9, name: "Batagor", category: "Dessert", price: 5000, description: "Renyah dengan bumbu mantap.", badge: "🔥 Best Seller", image: "", icon: "🥟", bgColor: "from-amber-100 to-amber-50" },
+            
+            // GORENGAN
+            { id: 10, name: "Bakwan", category: "Gorengan", price: 1000, description: "Renyah dan hangat.", badge: "", image: "", icon: "🍘", bgColor: "from-orange-100 to-orange-50" },
+            { id: 11, name: "Tempe", category: "Gorengan", price: 1000, description: "Gorengan wajib.", badge: "", image: "", icon: "🍘", bgColor: "from-orange-100 to-orange-50" },
+            { id: 12, name: "Cireng Isi", category: "Gorengan", price: 1000, description: "Kenyal isi ayam.", badge: "", image: "", icon: "🥟", bgColor: "from-orange-100 to-orange-50" },
+            { id: 13, name: "Piscok", category: "Gorengan", price: 1000, description: "Manis lumer di mulut.", badge: "", image: "", icon: "🍌", bgColor: "from-yellow-100 to-yellow-50" },
+            { id: 14, name: "Risol", category: "Gorengan", price: 1000, description: "Gurih isi sayur/mayo.", badge: "", image: "", icon: "🌯", bgColor: "from-orange-100 to-orange-50" },
+            { id: 15, name: "Tahu", category: "Gorengan", price: 1000, description: "Tahu isi pedas.", badge: "", image: "", icon: "🥠", bgColor: "from-orange-100 to-orange-50" },
+            
+            // MINUMAN
+            { id: 16, name: "Es Teh", category: "Minuman", price: 3000, description: "Segar pelepas dahaga.", badge: "🔥 Best Seller", image: "", icon: "🥤", bgColor: "from-amber-100 to-amber-50" },
+            { id: 17, name: "Americano Dingin", category: "Minuman", price: 7000, description: "Kopi hitam segar.", badge: "", image: "", icon: "🧊", bgColor: "from-stone-200 to-stone-100" },
+            { id: 18, name: "Coffee Milk", category: "Minuman", price: 8000, description: "Kopi susu creamy.", badge: "", image: "", icon: "☕", bgColor: "from-orange-100 to-orange-50" },
+            { id: 19, name: "Espresso Hot", category: "Minuman", price: 6000, description: "Kopi pekat panas.", badge: "", image: "", icon: "☕", bgColor: "from-stone-200 to-stone-100" },
+            
+            // MINUMAN VARIANT
+            { id: 20, name: "AB Creamer Choco Lava", category: "Minuman", variants: [{name: "Small", price: 5000}, {name: "Large", price: 7000}], description: "Coklat lumer manis.", badge: "", image: "", icon: "🍫", bgColor: "from-amber-800/20 to-amber-800/10" },
+            { id: 21, name: "AB Creamer Banana", category: "Minuman", variants: [{name: "Small", price: 5000}, {name: "Large", price: 7000}], description: "Rasa pisang creamy.", badge: "", image: "", icon: "🍌", bgColor: "from-yellow-200 to-yellow-100" },
+            { id: 22, name: "AB Creamer Durian", category: "Minuman", variants: [{name: "Small", price: 5000}, {name: "Large", price: 7000}], description: "Aroma durian legit.", badge: "", image: "", icon: "🍈", bgColor: "from-green-200 to-green-100" },
+            { id: 23, name: "AB Creamer Choco Milo", category: "Minuman", variants: [{name: "Small", price: 5000}, {name: "Large", price: 7000}], description: "Milo creamy seger.", badge: "", image: "", icon: "🍫", bgColor: "from-amber-700/20 to-amber-700/10" },
+            { id: 24, name: "AB Creamer Blueberry", category: "Minuman", variants: [{name: "Small", price: 5000}, {name: "Large", price: 7000}], description: "Segar manis blueberry.", badge: "", image: "", icon: "🫐", bgColor: "from-purple-200 to-purple-100" },
+            
+            { id: 25, name: "Dalgona Coffee", category: "Minuman", price: 8000, description: "Foam kopi tebal.", badge: "", image: "", icon: "☕", bgColor: "from-amber-200 to-amber-100" },
+
+            // PAKET HEMAT
+            { id: 26, name: "Paket Jagoan Ria 1", category: "Paket Hemat", price: 25000, description: "Ayam Songkem Paha + Nasi + Es Teh", badge: "🔥 BEST VALUE", image: "", icon: "🍱", bgColor: "from-red-100 to-orange-50" },
+            { id: 27, name: "Paket Jagoan Ria 2", category: "Paket Hemat", price: 29000, description: "Ayam Songkem Paha + Nasi + Coffee Milk", badge: "", image: "", icon: "🍱", bgColor: "from-red-100 to-orange-50" },
+            { id: 28, name: "Paket Jagoan Ria 3", category: "Paket Hemat", price: 30000, description: "Ayam Songkem Paha + Nasi + Dalgona Coffee", badge: "", image: "", icon: "🍱", bgColor: "from-red-100 to-orange-50" },
+            { id: 29, name: "Paket Gepris", category: "Paket Hemat", price: 18000, description: "Ayam Geprek + Nasi + Es Teh", badge: "", image: "", icon: "🍗", bgColor: "from-red-100 to-orange-50" },
+            { id: 30, name: "Paket Riceteh", category: "Paket Hemat", price: 12000, description: "Ricebowl + Es Teh", badge: "", image: "", icon: "🍚", bgColor: "from-red-100 to-orange-50" }
+        ];
+
+        const categories = ["Semua", "Makanan Utama", "Dessert", "Gorengan", "Minuman", "Paket Hemat"];
+
+        // ==========================================
+        // 3. STATE & UTILS
+        // ==========================================
+        let cart = JSON.parse(localStorage.getItem('jajanan_ria_cart')) || [];
+        let currentCategory = "Semua";
+        let searchQuery = "";
+
+        const formatRupiah = (number) => {
+            return new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                maximumFractionDigits: 0
+            }).format(number);
+        };
+
+        const showToast = (message, isError = false) => {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const bgColor = isError ? 'bg-danger' : 'bg-primary';
+            const icon = isError ? '<i class="ph-fill ph-warning-circle"></i>' : '<i class="ph-fill ph-check-circle text-success"></i>';
+            
+            toast.className = `flex items-center gap-3 px-4 py-3 rounded-xl shadow-float text-white text-sm font-medium toast-enter ${bgColor}`;
+            toast.innerHTML = `${icon} <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-active');
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('toast-active');
+                toast.classList.add('toast-leave');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        };
+
+        // ==========================================
+        // 4. INITIALIZATION & RENDERING
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initStoreStatus();
+            renderCategories();
+            renderPaketHighlight();
+            renderProducts();
+            updateCartUI();
+
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase();
+                renderProducts();
+            });
+
+            window.addEventListener('scroll', () => {
+                const header = document.getElementById('header');
+                if (window.scrollY > 10) {
+                    header.classList.add('shadow-sm');
+                } else {
+                    header.classList.remove('shadow-sm');
+                }
+            });
+        });
+
+        const initStoreStatus = () => {
+            const banner = document.getElementById('storeStatusBanner');
+            if (CONFIG.storeOpen) {
+                banner.className = "w-full text-center py-1.5 text-xs font-medium text-primary bg-success/20 transition-colors duration-300";
+                banner.innerHTML = `🟢 <strong>TOKO BUKA</strong> — Siap menerima pesanan`;
+            } else {
+                banner.className = "w-full text-center py-1.5 text-xs font-medium text-white bg-danger transition-colors duration-300";
+                banner.innerHTML = `🔴 <strong>TOKO TUTUP</strong> — Pesanan sementara tidak tersedia`;
+            }
+        };
+
+        const renderCategories = () => {
+            const container = document.getElementById('categoryContainer');
+            container.innerHTML = categories.map(cat => {
+                const isActive = cat === currentCategory;
+                const baseClass = "whitespace-nowrap px-5 py-2 rounded-full text-sm font-semibold transition-all border cursor-pointer select-none";
+                const activeClass = isActive 
+                    ? "bg-primary text-white border-primary shadow-md" 
+                    : "bg-white text-muted border-gray-200 hover:border-primary hover:text-primary";
+                return `<div onclick="setCategory('${cat}')" class="${baseClass} ${activeClass}">${cat}</div>`;
+            }).join('');
+        };
+
+        const setCategory = (cat) => {
+            currentCategory = cat;
+            renderCategories();
+            renderProducts();
+        };
+
+        const renderPaketHighlight = () => {
+            const container = document.getElementById('paketContainer');
+            const paketProducts = products.filter(p => p.category === "Paket Hemat").slice(0, 5); 
+
+            container.innerHTML = paketProducts.map(p => {
+                const isItemInCart = getCartQuantity(p.id, null);
+                const btnContent = isItemInCart > 0 
+                    ? `<div class="flex items-center justify-between bg-accent-light text-accent rounded-lg p-1 w-full border border-accent/20">
+                            <button onclick="updateQuantity(${p.id}, null, -1)" class="w-8 h-8 flex items-center justify-center font-bold text-lg rounded-md hover:bg-white transition" ${!CONFIG.storeOpen ? 'disabled' : ''}>-</button>
+                            <span class="font-bold text-sm">${isItemInCart}</span>
+                            <button onclick="updateQuantity(${p.id}, null, 1)" class="w-8 h-8 flex items-center justify-center font-bold text-lg rounded-md hover:bg-white transition" ${!CONFIG.storeOpen ? 'disabled' : ''}>+</button>
+                       </div>`
+                    : `<button onclick="addToCart(${p.id}, null)" class="w-full bg-accent hover:bg-yellow-500 text-white py-2 rounded-lg text-sm font-semibold transition flex items-center justify-center gap-1 shadow-sm" ${!CONFIG.storeOpen ? 'disabled style="opacity:0.5"' : ''}>
+                           <i class="ph ph-plus-circle text-lg"></i> Tambah
+                       </button>`;
+
+                return `
+                <div class="min-w-[280px] md:min-w-[320px] snap-center bg-white rounded-2xl p-4 shadow-soft border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="bg-red-100 text-danger text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1 uppercase tracking-wider">
+                                ${p.badge || 'PROMO'}
+                            </div>
+                            <div class="text-2xl">${p.icon}</div>
+                        </div>
+                        <h3 class="font-bold text-primary text-base leading-tight">${p.name}</h3>
+                        <p class="text-xs text-muted mt-1 leading-relaxed">${p.description}</p>
+                    </div>
+                    <div class="mt-4 flex items-center justify-between gap-3">
+                        <div class="font-bold text-primary">${formatRupiah(p.price)}</div>
+                        <div class="w-28">${btnContent}</div>
+                    </div>
+                </div>`;
+            }).join('');
+        };
+
+        const renderProducts = () => {
+            const grid = document.getElementById('productGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            let filtered = products;
+            if (currentCategory !== "Semua") {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+            if (searchQuery) {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery));
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = "";
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(p => {
+                const selectElement = document.getElementById(`variant-${p.id}`);
+                const selectedVariantName = selectElement ? selectElement.value : (p.variants ? p.variants[0].name : null);
+                
+                const currentPrice = p.variants 
+                    ? p.variants.find(v => v.name === selectedVariantName).price 
+                    : p.price;
+
+                const qty = getCartQuantity(p.id, selectedVariantName);
+                
+                let actionContent = '';
+                if (qty > 0) {
+                    actionContent = `
+                        <div class="flex items-center justify-between bg-primary text-white rounded-xl p-1 w-full">
+                           <button onclick="updateQuantity(${p.id}, ${p.variants ? 'getSelectValue('+p.id+')' : 'null'}, -1)" class="w-9 h-9 flex items-center justify-center font-bold text-lg rounded-lg hover:bg-gray-700 transition" ${!CONFIG.storeOpen ? 'disabled' : ''}>-</button>
+                           <span class="font-bold text-sm w-8 text-center">${qty}</span>
+                           <button onclick="updateQuantity(${p.id}, ${p.variants ? 'getSelectValue('+p.id+')' : 'null'}, 1)" class="w-9 h-9 flex items-center justify-center font-bold text-lg rounded-lg hover:bg-gray-700 transition" ${!CONFIG.storeOpen ? 'disabled' : ''}>+</button>
+                        </div>
+                    `;
+                } else {
+                    actionContent = `
+                        <button onclick="addToCart(${p.id}, ${p.variants ? 'getSelectValue('+p.id+')' : 'null'})" class="w-full bg-white hover:bg-gray-50 text-primary border border-gray-200 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-1" ${!CONFIG.storeOpen ? 'disabled style="opacity:0.5; cursor:not-allowed"' : ''}>
+                           <i class="ph ph-plus text-lg"></i> Tambah
+                        </button>
+                    `;
+                }
+
+                let priceDisplay = `<div class="font-extrabold text-primary text-base" id="price-${p.id}">${formatRupiah(currentPrice)}</div>`;
+                if(p.category === "Gorengan"){
+                    priceDisplay = `<div class="font-extrabold text-accent text-base bg-accent-light px-2 py-0.5 rounded-md" id="price-${p.id}">Rp1K</div>`;
+                }
+
+                let variantHTML = '';
+                if (p.variants) {
+                    const options = p.variants.map(v => `<option value="${v.name}" ${v.name === selectedVariantName ? 'selected' : ''}>${v.name}</option>`).join('');
+                    variantHTML = `
+                        <select id="variant-${p.id}" onchange="handleVariantChange(${p.id})" class="w-full mt-2 mb-2 text-xs p-1.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-accent">
+                            ${options}
+                        </select>
+                    `;
+                }
+
+                const imageHTML = p.image 
+                    ? `<img src="${p.image}" alt="${p.name}" class="w-full h-32 md:h-40 object-cover rounded-2xl mb-3">`
+                    : `<div class="w-full h-32 md:h-40 rounded-2xl mb-3 bg-gradient-to-br ${p.bgColor} flex items-center justify-center relative overflow-hidden group">
+                           <div class="text-5xl md:text-6xl group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">${p.icon}</div>
+                           ${p.badge ? `<div class="absolute top-2 left-2 bg-white/90 backdrop-blur text-primary text-[10px] font-bold px-2 py-1 rounded shadow-sm border border-white/50">${p.badge}</div>` : ''}
+                       </div>`;
+
+                return `
+                <div class="bg-white rounded-3xl p-3 md:p-4 shadow-soft border border-gray-100 flex flex-col relative group transition-transform duration-200 hover:-translate-y-1">
+                    ${imageHTML}
+                    <div class="flex-1 flex flex-col">
+                        <div class="text-[10px] font-bold text-muted uppercase tracking-wider mb-1">${p.category}</div>
+                        <h3 class="font-bold text-primary text-sm md:text-base leading-tight mb-1">${p.name}</h3>
+                        ${p.description ? `<p class="text-[11px] md:text-xs text-muted line-clamp-2 mb-2 flex-1">${p.description}</p>` : '<div class="flex-1"></div>'}
+                        
+                        ${variantHTML}
+
+                        <div class="flex flex-col gap-3 mt-auto pt-2">
+                            ${priceDisplay}
+                            <div id="action-${p.id}">
+                                ${actionContent}
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        };
+
+        const getSelectValue = (id) => {
+            const el = document.getElementById(`variant-${id}`);
+            return el ? `'${el.value}'` : null;
+        };
+
+        const handleVariantChange = (id) => {
+            const product = products.find(p => p.id === id);
+            const selectEl = document.getElementById(`variant-${id}`);
+            const variantName = selectEl.value;
+            const variant = product.variants.find(v => v.name === variantName);
+            
+            document.getElementById(`price-${id}`).innerHTML = formatRupiah(variant.price);
+            renderProducts(); 
+        };
+
+        // ==========================================
+        // 5. CART LOGIC
+        // ==========================================
+        const getCartKey = (id, variant) => variant ? `${id}-${variant}` : `${id}`;
+
+        const getCartQuantity = (id, variant) => {
+            const key = getCartKey(id, variant);
+            const item = cart.find(i => i.key === key);
+            return item ? item.quantity : 0;
+        };
+
+        const addToCart = (id, variantName) => {
+            if (!CONFIG.storeOpen) return;
+
+            const product = products.find(p => p.id === id);
+            let price = product.price;
+            if (variantName) {
+                price = product.variants.find(v => v.name === variantName).price;
+            }
+
+            const key = getCartKey(id, variantName);
+            const existingItem = cart.find(i => i.key === key);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    key,
+                    id: product.id,
+                    name: product.name,
+                    variant: variantName,
+                    price: price,
+                    quantity: 1,
+                    icon: product.icon
+                });
+            }
+
+            saveCart();
+            updateCartUI();
+            renderProducts();
+            renderPaketHighlight();
+            
+            showToast(`${product.name} ${variantName ? `(${variantName})` : ''} ditambahkan.`);
+        };
+
+        const updateQuantity = (id, variantName, change) => {
+            if (!CONFIG.storeOpen && change > 0) return;
+
+            const key = getCartKey(id, variantName);
+            const itemIndex = cart.findIndex(i => i.key === key);
+            
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity += change;
+                if (cart[itemIndex].quantity <= 0) {
+                    cart.splice(itemIndex, 1);
+                    showToast(`Item dihapus dari keranjang.`, true);
+                }
+            }
+
+            saveCart();
+            updateCartUI();
+            renderProducts();
+            renderPaketHighlight();
+        };
+
+        const saveCart = () => {
+            localStorage.setItem('jajanan_ria_cart', JSON.stringify(cart));
+        };
+
+        const updateCartUI = () => {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Header Badge
+            const headerBadge = document.getElementById('cartBadgeHeader');
+            headerBadge.innerText = totalItems;
+            if(totalItems > 0) {
+                headerBadge.classList.remove('scale-0');
+                headerBadge.classList.add('scale-100');
+            } else {
+                headerBadge.classList.remove('scale-100');
+                headerBadge.classList.add('scale-0');
+            }
+
+            // Floating Cart "Checkout Sekarang" (Muncul untuk Desktop & Mobile)
+            const floatingCart = document.getElementById('floatingCart');
+            document.getElementById('floatingCartQty').innerText = totalItems;
+            document.getElementById('floatingCartTotal').innerText = formatRupiah(totalPrice);
+            
+            if (totalItems > 0) {
+                floatingCart.classList.remove('translate-y-32');
+                floatingCart.classList.add('translate-y-0');
+            } else {
+                floatingCart.classList.add('translate-y-32');
+                floatingCart.classList.remove('translate-y-0');
+            }
+
+            // Drawer Cart
+            const cartItemsContainer = document.getElementById('cartItemsContainer');
+            const cartTotalUI = document.getElementById('cartTotalUI');
+            const checkoutTotalUI = document.getElementById('checkoutTotalUI');
+            
+            cartTotalUI.innerText = formatRupiah(totalPrice);
+            checkoutTotalUI.innerText = formatRupiah(totalPrice);
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-center py-10 opacity-60">
+                        <div class="text-6xl mb-3">🛒</div>
+                        <p class="font-semibold text-primary">Keranjang masih kosong</p>
+                        <p class="text-sm text-muted">Yuk pilih jajanan favoritmu.</p>
+                        <button onclick="toggleCart()" class="mt-4 text-accent font-semibold text-sm hover:underline">Lihat Menu</button>
+                    </div>
+                `;
+                return;
+            }
+
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center text-2xl shrink-0">
+                        ${item.icon}
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-primary text-sm">${item.name}</h4>
+                        ${item.variant ? `<span class="text-[10px] bg-gray-100 px-2 py-0.5 rounded text-muted mt-1 inline-block">${item.variant}</span>` : ''}
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="font-bold text-accent text-sm">${formatRupiah(item.price)}</span>
+                            
+                            <div class="flex items-center justify-between bg-gray-100 rounded-lg p-0.5">
+                                <button onclick="updateQuantity(${item.id}, ${item.variant ? `'${item.variant}'` : 'null'}, -1)" class="w-7 h-7 flex items-center justify-center font-bold text-primary rounded-md bg-white shadow-sm hover:bg-gray-50">-</button>
+                                <span class="font-semibold text-xs w-6 text-center text-primary">${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.id}, ${item.variant ? `'${item.variant}'` : 'null'}, 1)" class="w-7 h-7 flex items-center justify-center font-bold text-primary rounded-md bg-white shadow-sm hover:bg-gray-50">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        // ==========================================
+        // 6. UI TOGGLES
+        // ==========================================
+        const toggleCart = () => {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            const isOpen = !drawer.classList.contains('translate-x-full');
+
+            if (isOpen) {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.remove('opacity-100');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            } else {
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.add('opacity-100');
+                    drawer.classList.remove('translate-x-full');
+                }, 10);
+            }
+        };
+
+        const openCheckout = () => {
+            if (cart.length === 0) {
+                showToast("Keranjang masih kosong!", true);
+                return;
+            }
+            if (!CONFIG.storeOpen) {
+                showToast("Maaf, toko sedang tutup.", true);
+                return;
+            }
+            
+            // Tutup laci keranjang jika terbuka
+            const drawer = document.getElementById('cartDrawer');
+            if (!drawer.classList.contains('translate-x-full')) {
+                toggleCart(); 
+            }
+            
+            const modal = document.getElementById('checkoutModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Auto-fill form jika ada penyimpanan lokal
+            if(localStorage.getItem('jr_saved_name')) document.getElementById('custName').value = localStorage.getItem('jr_saved_name');
+            if(localStorage.getItem('jr_saved_nis')) document.getElementById('custNIS').value = localStorage.getItem('jr_saved_nis');
+            if(localStorage.getItem('jr_saved_room')) document.getElementById('custRoom').value = localStorage.getItem('jr_saved_room');
+        };
+
+        const closeCheckout = () => {
+            const modal = document.getElementById('checkoutModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        // ==========================================
+        // 7. CHECKOUT & WHATSAPP
+        // ==========================================
+        const processOrder = () => {
+            const name = document.getElementById('custName').value.trim();
+            const nis = document.getElementById('custNIS').value.trim();
+            const room = document.getElementById('custRoom').value.trim();
+            const time = document.getElementById('custTime').value;
+            const note = document.getElementById('custNote').value.trim();
+            const parentMsg = document.getElementById('custParentMessage').value.trim();
+            const payment = document.querySelector('input[name="payment"]:checked').value;
+
+            if (!name || !nis || !room || !time) {
+                showToast("Mohon lengkapi Nama Santri, NIS, Kamar/Kelas, dan Waktu Pengambilan.", true);
+                return;
+            }
+
+            // Simpan info dasar untuk pesanan berikutnya
+            localStorage.setItem('jr_saved_name', name);
+            localStorage.setItem('jr_saved_nis', nis);
+            localStorage.setItem('jr_saved_room', room);
+
+            // Generate Order ID (RIA-XXXX)
+            const orderId = `RIA-${Math.floor(1000 + Math.random() * 9000)}`;
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            let message = `🛍️ PESANAN BARU — ${CONFIG.storeName.toUpperCase()}\n`;
+            message += `🧾 Order ID: ${orderId}\n`;
+            message += `━━━━━━━━━━━━━━\n`;
+            message += `DAFTAR PESANAN\n\n`;
+
+            cart.forEach(item => {
+                const itemName = item.variant ? `${item.name} (${item.variant})` : item.name;
+                const subtotal = item.price * item.quantity;
+                message += `${itemName}\n`;
+                message += `${item.quantity} × ${formatRupiah(item.price)} = ${formatRupiah(subtotal)}\n\n`;
+            });
+
+            message += `━━━━━━━━━━━━━━\n`;
+            message += `TOTAL: ${formatRupiah(totalPrice)}\n\n`;
+            message += `👤 Nama Santri: ${name}\n`;
+            message += `🆔 NIS: ${nis}\n`;
+            message += `🏠 Kamar/Kelas: ${room}\n`;
+            message += `⏰ Pengambilan: ${time}\n`;
+            message += `💳 Pembayaran: ${payment}\n`;
+            
+            if (note) {
+                message += `📝 Catatan Pesanan:\n${note}\n\n`;
+            }
+            if (parentMsg) {
+                message += `💌 Pesan untuk Ananda:\n${parentMsg}\n\n`;
+            }
+            
+            message += `\nTerima kasih 🙏`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const waLink = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodedMessage}`;
+
+            // Kosongkan keranjang & tutup popup
+            cart = [];
+            saveCart();
+            updateCartUI();
+            renderProducts();
+            renderPaketHighlight();
+            closeCheckout();
+            
+            // Mengarahkan ke link WhatsApp
+            window.open(waLink, '_blank');
+        };
+    </script>
+
+    <!-- ============================================================
+         SB CINEMATIC OPENING SCRIPT
+         ============================================================ -->
+    <script>
+        (function () {
+            function initializeSaungBalongOpening() {
+                var opening = document.getElementById('sbOpening');
+                var button = document.getElementById('sbOpeningButton');
+                var isFirstVisit = document.body.classList.contains('sb-first-visit');
+
+                if (isFirstVisit && opening) {
+                    ['sbOpeningLogo', 'sbOpeningName', 'sbOpeningTagline', 'sbOpeningDesc', 'sbOpeningButton'].forEach(function (id) {
+                        var el = document.getElementById(id);
+                        if (el) el.classList.add('sb-in');
+                    });
+                }
+
+                if (button) {
+                    button.addEventListener('click', enterSaungBalong);
+                }
+
+                initializeMusicControl();
+            }
+
+            function enterSaungBalong() {
+                var opening = document.getElementById('sbOpening');
+                if (!opening || opening.classList.contains('opening-exit')) return; 
+
+                var button = document.getElementById('sbOpeningButton');
+                var flash = document.getElementById('sbGoldenFlash');
+                var logo = document.getElementById('sbOpeningLogo');
+                var name = document.getElementById('sbOpeningName');
+                var tagline = document.getElementById('sbOpeningTagline');
+                var desc = document.getElementById('sbOpeningDesc');
+                var music = document.getElementById('backgroundMusic');
+                var control = document.getElementById('sbMusicControl');
+                var mainContent = document.getElementById('sbMainContent');
+
+                var musicPref = null;
+                try { musicPref = localStorage.getItem('saungBalongMusicEnabled'); } catch (e) {}
+
+                if (musicPref !== 'false' && music) {
+                    music.volume = 0.35;
+                    music.play().catch(function (error) {
+                        console.log('Musik belum dapat diputar:', error);
+                    });
+                }
+
+                if (flash) flash.classList.add('sb-flash-active');
+
+                if (logo) logo.classList.add('sb-out');
+                if (name) name.classList.add('sb-out');
+                if (tagline) tagline.classList.add('sb-out');
+                if (desc) desc.classList.add('sb-out');
+                if (button) button.classList.add('sb-out');
+
+                document.body.classList.remove('sb-first-visit');
+                if (control) control.classList.add('sb-visible');
+
+                setTimeout(function () {
+                    opening.classList.add('opening-exit');
+                }, 120);
+
+                try { sessionStorage.setItem('saungBalongEntered', 'true'); } catch (e) {}
+
+                setTimeout(function () {
+                    opening.style.display = 'none';
+                    document.body.style.overflow = '';
+
+                    try {
+                        window.scrollTo({ top: 0, behavior: 'instant' });
+                    } catch (e) {
+                        window.scrollTo(0, 0);
+                    }
+
+                    if (mainContent) mainContent.style.transform = 'none';
+                }, 1200);
+            }
+
+            function initializeMusicControl() {
+                var control = document.getElementById('sbMusicControl');
+                var music = document.getElementById('backgroundMusic');
+                if (!control || !music) return;
+
+                if (!document.body.classList.contains('sb-first-visit')) {
+                    control.classList.add('sb-visible');
+                }
+
+                music.addEventListener('error', function () {
+                    console.log('Musik gagal dimuat.');
+                });
+
+                music.addEventListener('play', function () { updateMusicUI(true); });
+                music.addEventListener('pause', function () { updateMusicUI(false); });
+
+                control.addEventListener('click', function () {
+                    if (music.paused) {
+                        music.volume = 0.35;
+                        music.play().then(function () {
+                            try { localStorage.setItem('saungBalongMusicEnabled', 'true'); } catch (e) {}
+                        }).catch(function (error) {
+                            console.log('Musik belum dapat diputar:', error);
+                        });
+                    } else {
+                        music.pause();
+                        try { localStorage.setItem('saungBalongMusicEnabled', 'false'); } catch (e) {}
+                    }
+                });
+
+                updateMusicUI(!music.paused);
+            }
+
+            function updateMusicUI(isPlaying) {
+                var control = document.getElementById('sbMusicControl');
+                if (!control) return;
+                control.innerHTML = isPlaying
+                    ? '<i class="ph ph-music-notes" aria-hidden="true"></i>'
+                    : '<i class="ph ph-speaker-slash" aria-hidden="true"></i>';
+                control.setAttribute('aria-label', isPlaying ? 'Matikan musik' : 'Nyalakan musik');
+                control.classList.toggle('sb-playing', !!isPlaying);
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                initializeSaungBalongOpening();
+            });
+        })();
+    </script>
+</body>
+</html>
